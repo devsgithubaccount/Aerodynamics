@@ -1,0 +1,27 @@
+function[errV,errP] = errorCalc(c,alpha,V_inf,p_inf,rho_inf,n)
+%%Comparison Case
+    [Vtrue,Ptrue] = Airfoil_Flow(c,alpha,V_inf,p_inf,rho_inf,500);
+    Vmax = max(max(Vtrue));
+    Pmax = max(max(Ptrue));
+    errV = zeros(1,n);
+    errP = zeros(1,n);
+    for i = 1:n
+         [V,P] = Airfoil_Flow(c,alpha,V_inf,p_inf,rho_inf,i);
+         errV(i) = abs(Vmax - max(max(V))) / Vmax;
+         errP(i) = abs(Pmax - max(max(P))) / Pmax;
+    end
+    figure(4)
+    hold on
+    plot(linspace(1,n,n),errV)
+    title('Error in Velocity vs Number of Panels, N')
+    xlabel('Number of Panels')
+    ylabel('Error in Velocity')
+    hold off
+    figure(5)
+    hold on
+    plot(linspace(1,n,n),errP)
+        title('Error in Pressure vs Number of Panels, N')
+    xlabel('Number of Panels')
+    ylabel('Error in Velocity')
+    hold off
+end
